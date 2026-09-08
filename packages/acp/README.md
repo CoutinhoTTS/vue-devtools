@@ -8,6 +8,14 @@ for scope, security requirements, and questions about upstream integration.
 
 ![Agent panel prototype](docs/acp-panel.png)
 
+The branch already supports selecting Vue component instances through @ mentions
+or page picking, highlighting candidates in the running application, and attaching
+bounded component snapshots when sending a message. Workspace file/directory
+references are also available. Pinia store and Router context selection are
+proposed extensions, not implemented features; see the proposal for details.
+
+![Implemented component mention picker and page highlighting](docs/acp-component-picker.png)
+
 Local validation on 2026-09-08:
 
 - Package build and TypeScript/Vue type checks passed.
