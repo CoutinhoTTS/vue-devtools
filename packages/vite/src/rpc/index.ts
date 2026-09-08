@@ -1,3 +1,4 @@
+import { getAgentFunctions } from './agents'
 import { getAssetsFunctions } from './assets'
 import { getConfigFunctions } from './get-config'
 import { getGraphFunctions } from './graph'
@@ -9,6 +10,7 @@ export function getRpcFunctions(ctx: RpcFunctionCtx) {
       return true
     },
     ...getAssetsFunctions(ctx),
+    ...getAgentFunctions(ctx),
     ...getConfigFunctions(ctx),
     ...getGraphFunctions(ctx),
   }

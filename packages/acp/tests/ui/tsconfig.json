@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": { "@vue/devtools-acp": ["../../src/index.ts"] },
+    "types": ["node", "vite/client"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["../../src/ui/**/*.ts", "../../src/ui/**/*.vue", "./fixtures.ts", "./preview.ts", "./Preview.vue", "./transport.test.ts", "./panel.test.ts"]
+}

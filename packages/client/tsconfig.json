@@ -5,6 +5,7 @@
     "lib": ["esnext", "dom"],
     "module": "esnext",
     "paths": {
+      "@vue/devtools-acp": ["../acp/src/index.ts"],
       "~/*": ["./src/*"]
     },
     "types": [

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@unocss/preset-icons": "^66.5.4",
+    "@vue/devtools-acp": "workspace:^",
     "@vue/devtools-applet": "workspace:^",
     "@vue/devtools-core": "workspace:^",
     "@vue/devtools-kit": "workspace:^",

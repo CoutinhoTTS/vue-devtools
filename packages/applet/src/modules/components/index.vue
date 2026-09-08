@@ -265,6 +265,8 @@ async function inspectComponentInspector() {
 
   try {
     const data = JSON.parse(await rpc.value.inspectComponentInspector())
+    if (!data.id)
+      return
 
     const appId = data.id.split(':')[0]
     if (activeAppRecordId.value !== data.appId) {

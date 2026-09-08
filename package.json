@@ -23,6 +23,7 @@
     "node": ">=18.19.0"
   },
   "scripts": {
+    "stub:acp": "turbo run stub --filter=./packages/acp",
     "stub:shared": "turbo stub --filter=./packages/shared",
     "stub:core": "turbo stub --filter=./packages/core",
     "stub:devtools-kit": "turbo stub --filter=./packages/devtools-kit",
@@ -31,6 +32,7 @@
     "stub:applet": "turbo stub --filter=./packages/applet",
     "stub:vite": "turbo stub --filter=./packages/vite",
     "stub:devtools-api": "turbo stub --filter=./packages/devtools-api...",
+    "build:acp": "turbo run build --filter=./packages/acp...",
     "build:applet": "turbo build --filter=./packages/applet...",
     "build:shared": "turbo build --filter=./packages/shared...",
     "build:core": "turbo build --filter=./packages/core...",

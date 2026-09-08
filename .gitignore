@@ -81,6 +81,7 @@ dist
 .idea
 
 .vite-inspect
+.vue-devtools/
 auto-imports.d.ts
 components.d.ts
 

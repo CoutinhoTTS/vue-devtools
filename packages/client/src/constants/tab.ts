@@ -65,6 +65,15 @@ export const builtinTab: [string, ModuleBuiltinTab[]][] = [
       title: 'Graph',
     },
   ]],
+  ['agent', [
+    {
+      icon: 'i-mingcute-chat-1-ai-line',
+      name: 'acp',
+      order: -100,
+      path: 'acp',
+      title: 'ACP',
+    },
+  ]],
 ]
 
 export const viteOnlyTabs = [

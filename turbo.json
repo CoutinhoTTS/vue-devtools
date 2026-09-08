@@ -7,6 +7,26 @@
         "@vue/devtools-electron#stub"
       ]
     },
+    "@vue/devtools-acp#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "@vue/devtools-acp#prepare:type": {
+      "dependsOn": [
+        "^prepare:type"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "@vue/devtools-acp#stub": {
+      "cache": false,
+      "persistent": true
+    },
     "@vue/devtools-chrome-extension#build": {
       "dependsOn": [
         "@vue/devtools-client#build",

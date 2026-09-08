@@ -53,6 +53,21 @@ export const functions = {
   heartbeat: () => {
     return true
   },
+  getComponentCandidates(query: string) {
+    return devtools.ctx.api.getComponentCandidates(query)
+  },
+  inspectComponentReference() {
+    return devtools.ctx.api.inspectComponentReference()
+  },
+  captureComponentReferences(...args: Parameters<typeof devtools.ctx.api.captureComponentReferences>) {
+    return devtools.ctx.api.captureComponentReferences(...args)
+  },
+  validateComponentReferences(...args: Parameters<typeof devtools.ctx.api.validateComponentReferences>) {
+    return devtools.ctx.api.validateComponentReferences(...args)
+  },
+  highlightComponentReference(...args: Parameters<typeof devtools.ctx.api.highlightComponentReference>) {
+    return devtools.ctx.api.highlightComponentReference(...args)
+  },
   devtoolsState: () => {
     return getDevToolsState()
   },

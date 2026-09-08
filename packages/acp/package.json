@@ -1,0 +1,73 @@
+{
+  "name": "@vue/devtools-acp",
+  "type": "module",
+  "version": "8.2.1",
+  "private": true,
+  "description": "Local agent integration for Vue DevTools",
+  "license": "MIT",
+  "sideEffects": ["**/*.css"],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./ui": "./src/ui/index.ts",
+    "./ui/uno": "./src/ui/uno.ts",
+    "./node": {
+      "import": {
+        "types": "./dist/node.d.ts",
+        "default": "./dist/node.js"
+      },
+      "require": {
+        "types": "./dist/node.d.cts",
+        "default": "./dist/node.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "src/schema",
+    "src/ui"
+  ],
+  "scripts": {
+    "build": "tsdown --clean",
+    "dev": "tsdown --watch --no-clean",
+    "prepare:type": "tsdown --no-clean",
+    "stub": "pnpm dev",
+    "type-check": "tsc --project tsconfig.test.json && vue-tsc --noEmit --project tests/ui/tsconfig.json",
+    "test": "vitest run --config vitest.config.ts",
+    "test:ui": "vitest run --config tests/ui/vitest.config.ts",
+    "dev:ui": "vite --config tests/ui/vite.config.ts --host 127.0.0.1 --port 5176",
+    "test:live": "tsx tests/live.ts"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.22"
+  },
+  "dependencies": {
+    "@agentclientprotocol/sdk": "1.4.0",
+    "@vue/devtools-ui": "workspace:*",
+    "@vueuse/core": "catalog:",
+    "@vueuse/integrations": "catalog:",
+    "floating-vue": "catalog:",
+    "focus-trap": "^7.6.5",
+    "fuse.js": "^7.1.0",
+    "jsonc-parser": "^3.3.1",
+    "markstream-vue": "1.0.1-beta.3",
+    "smol-toml": "^1.8.0"
+  },
+  "devDependencies": {
+    "@iconify/json": "catalog:",
+    "@unocss/reset": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "unocss": "catalog:",
+    "vite": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "3.1.1"
+  }
+}

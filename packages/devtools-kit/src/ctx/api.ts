@@ -2,8 +2,9 @@ import type { Hookable, HookKeys } from 'hookable'
 import type { CustomInspectorState } from '../types'
 import type { DevToolsContextHooks, DevToolsMessagingHooks, DevToolsV6PluginAPIHookPayloads } from './hook'
 import { target } from '@vue/devtools-shared'
-import { cancelInspectComponentHighLighter, inspectComponentHighLighter, scrollToComponent } from '../core/component-highlighter'
+import { cancelInspectComponentHighLighter, inspectComponentHighLighter, inspectComponentInstance, scrollToComponent } from '../core/component-highlighter'
 import { getComponentInspector } from '../core/component-inspector'
+import { createComponentReferenceRegistry } from '../core/component/references'
 import { StateEditor } from '../core/component/state/editor'
 import { getRootElementsFromComponentInstance } from '../core/component/tree/el'
 import { getComponentInstance } from '../core/component/utils'
@@ -16,7 +17,25 @@ import { callInspectorUpdatedHook, getInspector } from './inspector'
 import { activeAppRecord, devtoolsAppRecords, setActiveAppRecord, setActiveAppRecordId } from './state'
 
 export function createDevToolsApi(hooks: Hookable<DevToolsContextHooks & DevToolsMessagingHooks, HookKeys<DevToolsContextHooks & DevToolsMessagingHooks>>) {
+  const references = createComponentReferenceRegistry({
+    getApp: () => activeAppRecord.value,
+    highlight: (uid) => { hooks.callHook(DevToolsContextHookKeys.COMPONENT_HIGHLIGHT, { uid }) },
+    clear: () => { hooks.callHook(DevToolsContextHookKeys.COMPONENT_UNHIGHLIGHT) },
+  })
   return {
+    getComponentCandidates: references.list,
+    captureComponentReferences: references.capture,
+    validateComponentReferences: references.validate,
+    highlightComponentReference: references.highlight,
+    async inspectComponentReference() {
+      const instance = await inspectComponentInstance()
+      if (!instance)
+        return null
+      const app = devtoolsAppRecords.value.find(record => record.app === instance.appContext.app)
+      if (app && app !== activeAppRecord.value)
+        this.toggleApp(app.id, { inspectingComponent: true })
+      return references.resolve(instance)
+    },
     // get inspector tree
     async getInspectorTree(payload: Pick<DevToolsV6PluginAPIHookPayloads[DevToolsV6PluginAPIHookKeys.GET_INSPECTOR_TREE], 'inspectorId' | 'filter'>) {
       const _payload = {

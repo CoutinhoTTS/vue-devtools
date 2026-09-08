@@ -30,6 +30,7 @@
     "vue": "^3.0.0"
   },
   "dependencies": {
+    "@vue/devtools-acp": "workspace:^",
     "@vue/devtools-kit": "workspace:^",
     "@vue/devtools-shared": "workspace:^"
   },

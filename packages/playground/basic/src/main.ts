@@ -71,6 +71,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('./pages/PropMutation.vue'),
     name: 'prop-mutation',
   },
+  {
+    path: '/table',
+    component: () => import('./pages/Table.vue'),
+    name: 'table',
+  },
 ]
 
 const router = createRouter({

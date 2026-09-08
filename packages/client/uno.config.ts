@@ -1,7 +1,8 @@
+import { acpUnoConfig } from '@vue/devtools-acp/ui/uno'
 import { unoConfig } from '@vue/devtools-ui/theme'
 import { defineConfig, mergeConfigs, presetAttributify, presetWebFonts } from 'unocss'
 
-export default defineConfig(mergeConfigs([unoConfig, {
+export default defineConfig(mergeConfigs([unoConfig, acpUnoConfig, {
   rules: [
     /**
      * Credit to Nanda Syahrasyad (https://github.com/narendrasss)

@@ -24,6 +24,7 @@ const routes = [
   { path: '/timeline', component: () => import('~/pages/timeline.vue') },
   { path: '/assets', component: () => import('~/pages/assets.vue') },
   { path: '/graph', component: () => import('~/pages/graph.vue') },
+  { path: '/acp', component: () => import('~/pages/acp.vue') },
   { path: '/settings', component: () => import('~/pages/settings.vue') },
   { path: `/${CUSTOM_TAB_VIEW}/:name`, component: () => import('~/pages/custom-tab-view.vue') },
   { path: `/${CUSTOM_INSPECTOR_TAB_VIEW}/:name`, component: () => import('~/pages/custom-inspector-tab-view.vue') },

@@ -1,3 +1,4 @@
+import type { AgentChatSend, AgentChatSession, PermissionResponse, SessionOptions, UserInputResponse } from '@vue/devtools-acp'
 import type { AssetImporter, AssetInfo, ImageMeta, ModuleInfo } from './types'
 import { createRpcClient, createRpcServer, getViteRpcClient } from '@vue/devtools-kit'
 import { createHooks } from 'hookable'
@@ -28,8 +29,25 @@ export type ViteRPCFunctions = typeof viteRpcFunctions & {
   getTextAssetContent: (filepath: string, limit?: number) => Promise<string>
   // config
   getRoot: () => Promise<string>
+  getAgentDetections: () => Promise<AgentCatalogResult[]>
+  getAgentModels: (provider: string, refresh?: boolean) => Promise<AgentCatalogResult>
+  getAgentCommands: (token: string, context: import('@vue/devtools-acp').ComposerContext, refresh?: boolean) => Promise<import('@vue/devtools-acp').ComposerCatalog>
+  getAgentFiles: (token: string, query: string) => Promise<import('@vue/devtools-acp').ComposerFiles>
+  getAgentSessions: (token: string) => Promise<AgentChatSession[]>
+  sendAgentMessage: (token: string, input: AgentChatSend) => Promise<{ sessionId: string }>
+  stopAgentMessage: (token: string, id: string) => Promise<void>
+  respondAgentPermission: (token: string, id: string, response: PermissionResponse) => Promise<void>
+  respondAgentQuestion: (token: string, id: string, response: UserInputResponse) => Promise<void>
+  updateAgentOptions: (token: string, id: string, options: SessionOptions) => Promise<void>
   // graph
   getGraphModules: () => Promise<ModuleInfo[]>
+}
+
+export interface AgentCatalogResult {
+  provider: 'kimi' | 'grok' | 'claude' | 'pi' | 'openCode' | 'codex'
+  installed: boolean
+  models: { id: string, name: string, isDefault: boolean, reasoningEfforts: string[] }[]
+  error?: string
 }
 
 export const viteRpc = new Proxy<{

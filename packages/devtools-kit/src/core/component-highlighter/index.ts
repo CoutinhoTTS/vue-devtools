@@ -160,7 +160,11 @@ export function unhighlight() {
 
 let inspectInstance: VueAppInstance = null!
 function inspectFn(e: MouseEvent) {
-  const target = e.target as { __vueParentComponent?: VueAppInstance }
+  let target = e.target as (Element & { __vueParentComponent?: VueAppInstance }) | null
+  while (target && !target.__vueParentComponent)
+    target = target.parentElement
+  inspectInstance = null!
+  unhighlight()
   if (target) {
     const instance = target.__vueParentComponent
     if (instance) {
@@ -176,43 +180,54 @@ function inspectFn(e: MouseEvent) {
   }
 }
 
-function selectComponentFn(e: MouseEvent, cb) {
-  e.preventDefault()
-  e.stopPropagation()
-  if (inspectInstance) {
-    const uniqueComponentId = getUniqueComponentId(inspectInstance)
-    cb(uniqueComponentId)
+let inspectComponentHighLighterSelectFn: (e: MouseEvent) => void = null!
+let finishInspection: ((instance: VueAppInstance | null) => void) | undefined
+
+function inspectKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    event.preventDefault()
+    event.stopPropagation()
+    cancelInspectComponentHighLighter()
   }
 }
-
-let inspectComponentHighLighterSelectFn: (e: MouseEvent) => void = null!
 
 export function cancelInspectComponentHighLighter() {
   unhighlight()
   window.removeEventListener('mouseover', inspectFn)
   window.removeEventListener('click', inspectComponentHighLighterSelectFn, true)
+  window.removeEventListener('keydown', inspectKeydown, true)
   inspectComponentHighLighterSelectFn = null!
+  inspectInstance = null!
+  const finish = finishInspection
+  finishInspection = undefined
+  finish?.(null)
 }
 
-export function inspectComponentHighLighter() {
+export function inspectComponentInstance() {
+  cancelInspectComponentHighLighter()
   window.addEventListener('mouseover', inspectFn)
-  return new Promise<string>((resolve) => {
+  window.addEventListener('keydown', inspectKeydown, true)
+  return new Promise<VueAppInstance | null>((resolve) => {
+    finishInspection = resolve
     function onSelect(e: MouseEvent) {
       e.preventDefault()
       e.stopPropagation()
-      selectComponentFn(e, (id: string) => {
-        window.removeEventListener('click', onSelect, true)
-        inspectComponentHighLighterSelectFn = null!
-        window.removeEventListener('mouseover', inspectFn)
-        const el = getContainerElement()
-        if (el)
-          el.style.display = 'none'
-        resolve(JSON.stringify({ id }))
-      })
+      inspectFn(e)
+      if (!inspectInstance)
+        return
+      const instance = inspectInstance
+      finishInspection = undefined
+      cancelInspectComponentHighLighter()
+      resolve(instance)
     }
     inspectComponentHighLighterSelectFn = onSelect
     window.addEventListener('click', onSelect, true)
   })
+}
+
+export async function inspectComponentHighLighter() {
+  const instance = await inspectComponentInstance()
+  return JSON.stringify({ id: instance ? getUniqueComponentId(instance) : '' })
 }
 
 export function scrollToComponent(options: ScrollToComponentOptions) {

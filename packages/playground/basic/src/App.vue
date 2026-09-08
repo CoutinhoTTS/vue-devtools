@@ -32,6 +32,12 @@
           Prop mutation
         </span>
       </RouterLink>
+      |
+      <RouterLink to="/table">
+        <span>
+          Table
+        </span>
+      </RouterLink>
     </div>
   </div>
 </template>
